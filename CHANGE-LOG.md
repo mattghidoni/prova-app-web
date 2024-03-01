@@ -50,7 +50,7 @@ Per la creazione di un'app web, sono stati seguiti i seguenti passaggi:
             )
         }
         ```
-    - `template.tsx`: è più importante del layout.tsx ed è stato scritto il seguente codice:
+    - `template.tsx`: è un file che determina elementi comuni in tutte le pagine dell'app web. Un esempio può essere il footer o la barra delle impostazioni. Ho scritto il seguente codice:
 
         ```sh
         export default function Template({ children }: { children: React.ReactNode }) {
@@ -59,7 +59,7 @@ Per la creazione di un'app web, sono stati seguiti i seguenti passaggi:
         ```
 - Successivamente, ho anche creato una sottocartella `dashboard`, dove al suo interno ho creato una seconda pagina web che dipendesse da quella principale.
 - All'interno della dashboard ho inserito i seguenti file:
-    - `page.tsx`: necessario per inserire elementi nella seconda pagina. Ho scritto il seguente codice:
+    - `page.tsx`: file necessario per inserire elementi nella seconda pagina. Ho scritto il seguente codice:
 
         ```sh
             export default function Page() {
@@ -87,12 +87,12 @@ Per la creazione di un'app web, sono stati seguiti i seguenti passaggi:
             )
         }
         ```
-    - `loading.tsx`: file necessario per garantire una migliore interfaccia utente in caso di tempi prolungati di caricamento di dati. Non è stato completato del tutto, ma è stato scritto il seguente codice:
-        ```sh
-        export default function Loading() {
-            return <p>Loading...</p>
-        }
-        ```
+- `loading.tsx`: file necessario per garantire una migliore interfaccia utente in caso di tempi prolungati di caricamento di dati. Non è stato completato del tutto, ma è stato scritto il seguente codice:
+    ```sh
+    export default function Loading() {
+        return <p>Loading...</p>
+    }
+    ```
 - Ora, per vedere la pagina web, è necessario prima aprire il prompt nella cartella dell'applicazione e digitare il seguente comando:
     ```sh
     npm run dev
@@ -102,3 +102,44 @@ Per la creazione di un'app web, sono stati seguiti i seguenti passaggi:
     ![2web](2.png)
 
     ![3web](3.png)
+
+## AGGIUNTA PULSANTI E ERRORE
+- Ho aggiunto in `page.tsx` un pulsante per raggiungere più facilmente la dashboard:
+    ```sh
+    <button type="button"  onClick={() => router.push('/dashboard')}>clicca per dashboard</button>
+    ```
+- Ho modificato il contenuto di `layout.tsx` e ccreato una nuova iterfaccia `IRootLayout` per semplificare la lettura del codice:
+
+    ```sh
+    interface IRootLayout{
+        children : React.ReactNode
+    }
+
+    export default function RootLayout(props : IRootLayout) {
+        return (
+            <html lang="it">
+            <body>
+                <main>{props.children}</main>
+            </body>
+            </html>
+        )
+    }
+    ```
+- All'interno di `dashboard`, ho creato un nuovo file chiamato `error.tsx` che serve per la gestione degli errori:
+    ```sh
+    'use client'
+    export default function Error({
+        error,
+        reset,
+    }: {
+        error: Error & { digest?: string }
+        reset: () => void
+    }) {
+        return (
+            <div>
+            <h2>Something went wrong!</h2>
+            <button onClick={() => reset()}>Try again</button>
+            </div>
+        )
+    }
+    ```
