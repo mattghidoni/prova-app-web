@@ -143,3 +143,14 @@ Per la creazione di un'app web, sono stati seguiti i seguenti passaggi:
         )
     }
     ```
+- Dentro a `page.tsx` ho creato una funzione asincrona per la cattura dei dati:
+    ```sh
+    async function getData() {
+    const res = await fetch('https://jsonplaceholder.typicode.com/todos', { next: { revalidate: 3600 } })
+     if (!res.ok) {
+        throw new Error('Errore. Dati non presi.')
+    }
+ 
+    return res.json()
+    }
+    ```
