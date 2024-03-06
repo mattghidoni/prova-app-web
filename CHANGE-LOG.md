@@ -143,7 +143,7 @@ Per la creazione di un'app web, sono stati seguiti i seguenti passaggi:
         )
     }
     ```
-- Dentro a `page.tsx` ho creato una funzione asincrona per la cattura dei dati:
+- Dentro a `page.tsx` ho creato una funzione asincrona per la cattura dei dati. I dati vengono registrati ogni ora.
     ```sh
     async function getData() {
     const res = await fetch('https://jsonplaceholder.typicode.com/todos', { next: { revalidate: 3600 } })
@@ -152,5 +152,25 @@ Per la creazione di un'app web, sono stati seguiti i seguenti passaggi:
     }
  
     return res.json()
+    }
+    ```
+
+## AGGIUNTA STILE
+- Per cambiare lo stile all'interno della dashboard, ho creato un nuovo file chiamato `styles.module.css`. Al suo interno si possono scrivere diversi elementi di stile da applicare alla pagina, ma ho solamente cambiato il `padding` utilizzando il seguente codice:
+    ```sh
+    .dashboard {
+        padding: 24px;
+    }
+    ```
+- Successivamente, all'interno di `dashboard/layout.tsx` ho cambiato il codice precedente per far sì che potesse utilizzare le caratteristiche di `styles.module.css` presente nella stessa cartella.
+    ```sh
+    import styles from './styles.module.css'
+    
+    export default function DashboardLayout({
+    children,
+    }: {
+    children: React.ReactNode
+    }) {
+    return <section className={styles.dashboard}>{children}</section>
     }
     ```
